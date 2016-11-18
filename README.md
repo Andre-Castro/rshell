@@ -10,9 +10,9 @@ username and machine name before the ``$`` prompt.
 **Update v 1.1** allows users to have precednece to thier commands, meaning that 
 users can specify the precednece of the returns of their commands. For Example,
 the command `echo A && echo B || echo C && echo D` will print out:
->A <br>
->B <br>
->D <br>
+ >A <br>
+ >B <br>
+ >D <br>
 However, with precednece, the command `(echo A && echo B) || (echo C && echo D)`
 will print out:
 >A <br>
@@ -30,10 +30,15 @@ or
   test will be true regardless of the filepath. 
     *For exmaple, the call `[filepath]` where "filepath" does not exist, 
      returns
+
      > (True) <br>
+
      where the command `[ filepath ]` returns
+     
      > (False): No such file or directory <br>
+     
      as it should.
+
   Where 
 * When parentheses are used, if no connector is used following the parenthases
   like in the command `(ls || echo A) ls -a`, vector out of range is thrown.
