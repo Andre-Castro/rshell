@@ -1,0 +1,17 @@
+ls
+ls -a
+echo hello
+echo CS100
+cd ..
+;
+
+cat single_command.txt
+sudo
+mkdir test
+mkdir test
+     ls
+ls   ;
+ls   -a
+  ls-a   ;
+l  s  -  a  ;
+m k d i r t e s t

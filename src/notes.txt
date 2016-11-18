@@ -1,0 +1,2 @@
+First time through, test -e exits entire program. Any time after is ok. (we fixed this but kinda a ghost bug, not sure why it was only happening
+for test -e before...)

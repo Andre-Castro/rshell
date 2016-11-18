@@ -1,0 +1,14 @@
+Found Bugs
+-----------
+(Based on Git as 11/14)
+
+(ls || echo A) ls -a 
+   Command doesnt work, calls vector out of range
+   
+lsa && ls && ls || ls -a
+    doesnt run ls -a when it should
+    
+ls && && &&
+    Throws an error when 
+ls || ; &&;;;; && && && || && ;
+    does not
