@@ -24,7 +24,7 @@ class ParensCommand : public ExecCommand {
       bool execute(){
          vector<string> cmdStrings; // string of commands in the parens
          vector<string> parenConnectors;
-         unsigned numCommands = 0; // number of total commands...kinda (multcommands = 1 command)
+         unsigned numCommands = 0; // number of total commands
          string toAdd;
          
          for (unsigned i = 0; i < cmd->getVec().size(); i++) {
@@ -32,28 +32,30 @@ class ParensCommand : public ExecCommand {
             
             if (toCompare == ")" 
                && (cmd->getVec().at(i - 1)->getString() == "&&"
-                  || cmd->getVec().at(i - 1)->getString() == "||"
-                  || cmd->getVec().at(i - 1)->getString() == ";")
+               || cmd->getVec().at(i - 1)->getString() == "||"
+               || cmd->getVec().at(i - 1)->getString() == ";")
                && cmd->getVec().at(i - 2)->getString() == "(") {
-                  cmdStrings.push_back(toAdd);
-                  numCommands++;
-                  toAdd = "";
-                  continue;
-               }
+               // if one of (&&), (||), or (;)
+               cmdStrings.push_back(toAdd); // push back emptystring
+               numCommands++;
+               toAdd = "";
+               continue;
+            }
             
-            if(toCompare != "(" && toCompare != ")"){
-               toAdd += toCompare + " ";
+            if (toCompare != "(" && toCompare != ")") {
+               toAdd += toCompare + " "; // if not '(' or ')', add str to toAdd
             }
             
             if(toCompare == ")" || i == (cmd->getVec().size() -1)) {
+               // if reached end of parenthetical expression
                if(toAdd.at(0) == '|' || toAdd.at(0) == '&'){
                   parenConnectors.push_back(toAdd.substr(0,1));
                   toAdd.erase(0,2);
-               }
+               } // if the string starts with a logical connector, remove it
                else if(toAdd.at(0) == ';'){
                   parenConnectors.push_back(toAdd.substr(0,1));
                   toAdd.erase(0,1);
-               }
+               } // if the string starts with a semicolon, remove it
                
                
                if (toAdd.at(toAdd.size() - 2) == '|' 
@@ -66,21 +68,24 @@ class ParensCommand : public ExecCommand {
                   toAdd.erase(toAdd.size() - 2, 1);
                }
                
-               cmdStrings.push_back(toAdd);
+               cmdStrings.push_back(toAdd); // add parse'd out command to vec
                numCommands ++;
-               toAdd = "";
+               toAdd = ""; // empty toAdd
             }
             
             else if (toCompare == "(" &&
                      i != 0 && 
                      cmd->getVec().at(i - 2)->getString() != ")" ) {
+               /* if beginning of parenthetical expression, and two spaces
+               before was a closing parenthasee */
                if (toAdd.at(0) == '|' || toAdd.at(0) == '&') {
+                  // if toAdd starts with a connector
                   parenConnectors.push_back(toAdd.substr(0,1));
-                  toAdd.erase(0,2);
+                  toAdd.erase(0,2); //remove the connectors
                }
-               else if (toAdd.at(0) ==';') {
+               else if (toAdd.at(0) ==';') { // if toAdd starts with a ;
                   parenConnectors.push_back(toAdd.substr(0,1));
-                  toAdd.erase(0,1);
+                  toAdd.erase(0,1); // remove ;
                }
                
                if (toAdd.at(toAdd.size() - 2) == '|' 

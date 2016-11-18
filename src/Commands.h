@@ -110,22 +110,24 @@ class Commands : public CommandComposite {
          
          // cout << "before: " << newInput << endl;
          
-         // //the following code handles incorrect test brackets
-         // if (noCommentInput.size() > 1 && //short circuit evaluation
-         //    ((noCommentInput.at(0) == '[' && 
-         //    noCommentInput.at(1) != ' ') || 
-         //    (noCommentInput.at(noCommentInput.size() - 2) == ' ' && 
-         //    noCommentInput.at(noCommentInput.size() - 1) != ']'))){
-         //       cout << "noCommentInput.size() >= ind: " << (noCommentInput.size() >= 1) << endl;
-         //       cout << "noCommentInput.at(ind) == '[': " << (noCommentInput.at(0) == '[') << endl;
-         //       cout << "noCommentInput.at(ind+1) != ' ': " << (noCommentInput.at(1) != ' ') << endl;
-         //       cout << "noCommentInput.at(ind) == ' ': " << (noCommentInput.at(noCommentInput.size() - 2) == ' ' ) << endl;
-         //       cout << "noCommentInput.at(ind+1) != ']': " << (noCommentInput.at(noCommentInput.size() - 1) != ']') << endl;
-         //    newInput = "error";
-         // }         
-         // cout << "after: " << newInput << endl;
+         //the following code handles incorrect test brackets
+         // for (unsigned i = 0; i < newInput.size(); ++i) {
+         //    if (i != newInput.size() - 1 
+         //       && newInput.at(i) == '[' 
+         //       && newInput.at(i + 1) != ' ') {
+         //       // newInput.insert(i + 1, " ");
+         //       newInput = "error";
+         //    }
+         //    else if (i != 0
+         //             && newInput.at(i) == ']'
+         //             && newInput.at(i - 1) != ' ') {
+         //       // newInput.insert(i, " ");
+         //       newInput = "error";
+         //    }
+         // }
          
          // cout << newInput << endl;
+         
          unsigned i = 0;
          while (i != newInput.size() && !semiColon) { /*!semicolon is always 
             true for the first iteration of the while loop
@@ -200,6 +202,19 @@ class Commands : public CommandComposite {
                      else {
                         if (first) {
                            //create a new function object
+                           unsigned tSize = tokenOrConnect.size() - 1;
+                           
+                           if (tSize > 0) {
+                              if (tokenOrConnect.at(0) == '[' 
+                                 && tokenOrConnect.at(1) != ' ') {
+                                    tokenOrConnect = "error";
+                                 }
+                              else if (tokenOrConnect.at(tSize) == ']'
+                                       && tokenOrConnect.at(tSize - 1) != ' ') {
+                                          tokenOrConnect = "error";
+                                       }
+                           }
+                           // cout << tokenOrConnect << endl;
                            CommandComposite* funcns = 
                            new Functions(tokenOrConnect);
                            first = false;
@@ -220,10 +235,24 @@ class Commands : public CommandComposite {
                // cout << tokenOrConnect << endl;
             }
             tokenOrConnect = newInput.substr(begin, i - begin);
+            // cout << tokenOrConnect << endl;
             if (tokenOrConnect != "&&" && tokenOrConnect != "||"){
                if(first){
                   //create a new function object
-                  // cout << "yoyo: " << tokenOrConnect << endl;
+                  
+                  unsigned tSize = tokenOrConnect.size() - 1;
+                  
+                  if (tSize > 0) {
+                     if (tokenOrConnect.at(0) == '[' 
+                        && tokenOrConnect.at(1) != ' ') {
+                           tokenOrConnect = "error";
+                        }
+                     else if (tokenOrConnect.at(tSize) == ']'
+                              && tokenOrConnect.at(tSize - 1) != ' ') {
+                                 tokenOrConnect = "error";
+                              }
+                  }
+                  
                   CommandComposite* funcns = new Functions(tokenOrConnect);
                   first = false;
                   vec2.push_back(funcns);

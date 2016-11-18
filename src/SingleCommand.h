@@ -66,7 +66,6 @@ class SingleCommand : public ExecCommand {
          // check for test commands
          if(cmd->getString().substr(0,4) == "test" || 
             cmd->getString().substr(0,1) == "["){
-               
             string inputString = "";
             string openBracket = "[";
             string closeBracket = "]";
